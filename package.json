@@ -7,7 +7,8 @@
     "dev:watch": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint:watch": "nodemon --watch src --ext ts,tsx --exec 'next lint' --signal SIGTERM"
   },
   "dependencies": {
     "@rainbow-me/rainbowkit": "^1.3.1",
@@ -16,7 +17,7 @@
     "ethers": "^6.9.0",
     "immer": "^10.0.3",
     "lucide-react": "^0.298.0",
-    "next": "14.0.4",
+    "next": "^14.0.4",
     "react": "^18",
     "react-dom": "^18",
     "react-use": "^17.4.2",

@@ -37,12 +37,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <body className="w-full">
         <UiProvider>
           <WalletProvider>
-            <div className="w-full min-h-[100dvh] flex flex-col justify-between">
+            <div className="w-full min-h-[100dvh] flex flex-col gap-6">
               <header className="sticky top-0 z-10">
                 <Header />
               </header>
               <main className="px-4">{children}</main>
-              <footer className="mt-8">Footer</footer>
             </div>
           </WalletProvider>
         </UiProvider>

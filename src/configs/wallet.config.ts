@@ -12,14 +12,14 @@ const conf: Record<Env, Conf> = {
    * Development configurations
    */
   development: {
-    walletConnectId: '3d5c635fdf7dfe407aab9f35ab943bf2',
+    walletConnectId: '9133a8af8d550643d5b4c9f8fd110ba0',
   },
 
   /**
    * Production configurations
    */
   production: {
-    walletConnectId: '3d5c635fdf7dfe407aab9f35ab943bf2',
+    walletConnectId: '9133a8af8d550643d5b4c9f8fd110ba0',
   },
 }
 
