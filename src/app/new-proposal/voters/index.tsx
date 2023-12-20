@@ -143,7 +143,7 @@ export default function Voters({ onBack }: VotersProp) {
           Back
         </button>
         <button className="btn btn-primary w-full text-black mt-4">
-          Continue
+          Create Campaign
         </button>
       </div>
     </div>
