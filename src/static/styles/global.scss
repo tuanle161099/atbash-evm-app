@@ -13,3 +13,8 @@ html {
     font-size: 16px;
   }
 }
+
+.btn[disabled] {
+  background: #97928a;
+  cursor: not-allowed !important;
+}

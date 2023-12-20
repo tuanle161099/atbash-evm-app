@@ -7,9 +7,8 @@ type ProposalCardProps = {
 
 export default function ProposalCard({ proposalId }: ProposalCardProps) {
   const proposal = useProposalData(proposalId)
-  console.log(proposal)
   return (
-    <div className="w-full bg-gray-100 rounded-2xl p-2 flex flex-col gap-4">
+    <div className="w-full bg-base-100 rounded-2xl p-4 flex flex-col gap-4">
       <img
         className="aspect-video rounded-2xl"
         alt="banner"

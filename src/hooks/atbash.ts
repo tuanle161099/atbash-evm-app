@@ -1,7 +1,9 @@
-import { useContractRead, useNetwork } from 'wagmi'
+import { useMemo } from 'react'
+import { useContractRead } from 'wagmi'
 
 import Atbash from '@/static/abi/Atbash.json'
-import { useMemo } from 'react'
+
+import { Proposal } from '@/types'
 
 export const useAtbashContract = () => {
   const atbash = useMemo((): {
@@ -36,5 +38,5 @@ export const useProposalData = (proposalId: number) => {
     functionName: 'getProposal',
     args: [proposalId],
   })
-  return data
+  return data as Proposal
 }

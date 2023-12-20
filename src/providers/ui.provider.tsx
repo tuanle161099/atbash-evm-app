@@ -8,6 +8,7 @@ import Message from '@/components/message'
 import { env } from '@/configs/env'
 
 import '@/static/styles/global.scss'
+import { ConfigProvider } from 'antd'
 
 /**
  * Store
@@ -59,8 +60,10 @@ export default function UiProvider({ children }: { children: ReactNode }) {
 
   return (
     <Fragment>
-      {children}
-      <Message />
+      <ConfigProvider theme={{ token: { colorPrimary: '#FFCD75' } }}>
+        {children}
+        <Message />
+      </ConfigProvider>
     </Fragment>
   )
 }

@@ -9,7 +9,11 @@ const config: Config = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'bg-light': "url('/bg-light.png')",
+      },
+    },
   },
   plugins: [require('daisyui')],
   daisyui: {

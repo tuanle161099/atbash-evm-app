@@ -34,14 +34,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           rel="stylesheet"
         />
       </head>
-      <body className="w-full">
+      <body className="w-full bg-bg-light">
         <UiProvider>
           <WalletProvider>
             <div className="w-full min-h-[100dvh] flex flex-col gap-6">
-              <header className="sticky top-0 z-10">
-                <Header />
-              </header>
-              <main className="px-4">{children}</main>
+              <main>{children}</main>
             </div>
           </WalletProvider>
         </UiProvider>
