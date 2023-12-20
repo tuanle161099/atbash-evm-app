@@ -41,11 +41,16 @@ export default function NewProposal() {
   const processInit = useMemo(() => {
     switch (step) {
       case PROPOSAL_INFO:
-        return <Candidates />
-      case CANDIDATE_INFO:
         return <Campaign onNext={() => setStep(CANDIDATE_INFO)} />
+      case CANDIDATE_INFO:
+        return (
+          <Candidates
+            onBack={() => setStep(PROPOSAL_INFO)}
+            onNext={() => setStep(VOTER_ACCEPTED)}
+          />
+        )
       case VOTER_ACCEPTED:
-        return <Voters />
+        return <Voters onBack={() => setStep(CANDIDATE_INFO)} />
     }
   }, [step])
 
