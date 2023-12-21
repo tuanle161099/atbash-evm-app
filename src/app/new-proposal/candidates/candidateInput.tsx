@@ -9,7 +9,7 @@ type CandidateInputProps = {
   address?: string
 }
 export default function CandidateInput({ address = '' }: CandidateInputProps) {
-  const [campaign, seCampaign] = useGlobalCampaign()
+  const [campaign, setCampaign] = useGlobalCampaign()
   const { candidates, proposalMetadata } = campaign
   const candidateMetadata = proposalMetadata.candidateMetadata
   const { avatar, description, name } = candidateMetadata[address] || {
@@ -23,7 +23,7 @@ export default function CandidateInput({ address = '' }: CandidateInputProps) {
     if (!address) return
     const nextCandidates = { ...candidateMetadata }
     nextCandidates[address] = { ...nextCandidates[address], [name]: value }
-    seCampaign({
+    setCampaign({
       ...campaign,
       proposalMetadata: {
         ...campaign.proposalMetadata,
@@ -42,7 +42,7 @@ export default function CandidateInput({ address = '' }: CandidateInputProps) {
       (candidate) => candidate !== address,
     )
     const nextCampaign = { ...campaign, candidates: nextCandidates }
-    return seCampaign(nextCampaign)
+    return setCampaign(nextCampaign)
   }
 
   return (

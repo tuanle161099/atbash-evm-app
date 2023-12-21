@@ -58,7 +58,7 @@ export default function Campaign({ onNext }: CampaignProp) {
         <p>Campaign Title</p>
         <input
           className="input bg-gray-100"
-          placeholder="Input link"
+          placeholder="Input your project name"
           maxLength={64}
           value={title}
           onChange={(e) => onChangeInfo('title', e.target.value)}
@@ -68,7 +68,7 @@ export default function Campaign({ onNext }: CampaignProp) {
         <p>Campaign descriptions</p>
         <textarea
           className="textarea bg-gray-100"
-          placeholder="Input link"
+          placeholder="Summarize about your campaign..."
           maxLength={120}
           value={description}
           onChange={(e) => onChangeInfo('description', e.target.value)}
