@@ -12,8 +12,8 @@ export default function Home() {
   const { amount } = useProposalCount()
   return (
     <Island>
-      <div className="flex flex-col gap-6">
-        <header className="sticky top-0 z-10">
+      <div className="flex flex-col gap-6 pb-6">
+        <header>
           <Header />
         </header>
         <div className="flex flex-col items-center">

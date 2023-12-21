@@ -4,10 +4,12 @@ import { isAddress } from 'ethers'
 import { parse } from 'papaparse'
 
 import RowVoter from './row'
-
-import { useGlobalCampaign } from '../page'
 import Dropzone from '@/components/dropzone'
+
 import { usePushMessage } from '@/components/message/store'
+import { DEFAULT_PROPOSAL, useGlobalCampaign } from '../page'
+import { useInitProposal } from '@/hooks/atbash'
+import { tomoscan } from '@/helpers/utils'
 
 enum RowStatus {
   Good,
@@ -22,9 +24,11 @@ type VotersProp = {
 export default function Voters({ onBack }: VotersProp) {
   const [campaign, setCampaign] = useGlobalCampaign()
   const [newAddress, setNewAddress] = useState('')
+  const [loading, setLoading] = useState(false)
   const [file, setFile] = useState<File>()
   const { voters } = campaign
   const pushMessage = usePushMessage()
+  const initProposal = useInitProposal(campaign)
 
   const statuses = useMemo(
     () =>
@@ -72,6 +76,22 @@ export default function Voters({ onBack }: VotersProp) {
     setCampaign(nextCampaign)
     setNewAddress('')
   }, [newAddress])
+
+  const onInitCampaign = useCallback(async () => {
+    try {
+      setLoading(true)
+      const txId = await initProposal()
+
+      pushMessage('alert-success', 'Initialize proposal successfully!', {
+        onClick: () => window.open(tomoscan(txId || ''), '_blank'),
+      })
+      return setCampaign(DEFAULT_PROPOSAL)
+    } catch (er: any) {
+      return pushMessage('alert-error', er.message)
+    } finally {
+      setLoading(false)
+    }
+  }, [initProposal])
 
   useEffect(() => {
     if (!file) return () => {}
@@ -142,7 +162,11 @@ export default function Voters({ onBack }: VotersProp) {
         <button onClick={onBack} className="btn  w-full text-black mt-4">
           Back
         </button>
-        <button className="btn btn-primary w-full text-black mt-4">
+        <button
+          onClick={onInitCampaign}
+          className="btn btn-primary w-full text-black mt-4"
+        >
+          {loading && <span className="loading loading-spinner loading-sm" />}
           Create Campaign
         </button>
       </div>
