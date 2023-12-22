@@ -82,9 +82,13 @@ export default function Voters({ onBack }: VotersProp) {
       setLoading(true)
       const txId = await initProposal()
 
-      pushMessage('alert-success', 'Initialize proposal successfully!', {
-        onClick: () => window.open(tomoscan(txId || ''), '_blank'),
-      })
+      pushMessage(
+        'alert-success',
+        'Initialize proposal successfully. Click to view details.',
+        {
+          onClick: () => window.open(tomoscan(txId || ''), '_blank'),
+        },
+      )
       return setCampaign(DEFAULT_PROPOSAL)
     } catch (er: any) {
       return pushMessage('alert-error', er.message)

@@ -2,9 +2,8 @@ import type { Metadata, Viewport } from 'next'
 
 import UiProvider from '@/providers/ui.provider'
 import WalletProvider from '@/providers/wallet.provider'
-import Header from './header'
 
-const title = 'Atbash'
+const title = 'Atbash | ZK Voting'
 const description =
   'Atbash: Redefining Digital Democracy with Advanced Privacy Tech. Unveiling the next era of secure, confidential e-voting.'
 const thumbnail = '/thumbnail.jpeg'
@@ -16,6 +15,10 @@ export const metadata: Metadata = {
     title,
     description,
     images: [thumbnail],
+  },
+  icons: {
+    icon: '/logo.svg',
+    apple: '/logo.svg',
   },
 }
 
@@ -34,7 +37,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           rel="stylesheet"
         />
       </head>
-      <body className="w-full bg-bg-light">
+      <body className="w-full bg-bg-light bg-cover bg-no-repeat ">
         <UiProvider>
           <WalletProvider>
             <div className="w-full min-h-[100dvh] flex flex-col gap-6">
