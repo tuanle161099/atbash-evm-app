@@ -7,9 +7,9 @@ import RowVoter from './row'
 import Dropzone from '@/components/dropzone'
 
 import { usePushMessage } from '@/components/message/store'
-import { DEFAULT_PROPOSAL, useGlobalCampaign } from '../page'
-import { useInitProposal } from '@/hooks/atbash'
+import { useGlobalCampaign, useInitProposal } from '@/hooks/atbash'
 import { tomoscan } from '@/helpers/utils'
+import { DEFAULT_PROPOSAL } from '@/constants'
 
 enum RowStatus {
   Good,
@@ -84,7 +84,7 @@ export default function Voters({ onBack }: VotersProp) {
 
       pushMessage(
         'alert-success',
-        'Initialize proposal successfully. Click to view details.',
+        'Initialize proposal successfully Click to view details.',
         {
           onClick: () => window.open(tomoscan(txId || ''), '_blank'),
         },

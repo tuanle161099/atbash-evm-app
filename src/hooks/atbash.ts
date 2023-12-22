@@ -7,6 +7,7 @@ import axios from 'axios'
 import useSWR from 'swr'
 import { bytesToHex } from 'viem'
 import { Leaf, MerkleDistributor } from 'atbash-evm'
+import { createGlobalState } from 'react-use'
 
 import { CandidateMetadata, InitProposalProps, Proposal } from '@/types'
 import { BSGS, decrypt, randomNumber } from '@/helpers/utils'
@@ -15,6 +16,7 @@ import { useMerkleDistributor } from './merkle'
 import { usePubkey } from './identity'
 
 import Atbash from '@/static/abi/Atbash.json'
+import { DEFAULT_PROPOSAL } from '@/constants'
 
 export const useAtbashContract = () => {
   const atbash = useMemo((): {
@@ -227,3 +229,6 @@ export const useReceipt = (proposalId: number) => {
   })
   return !!data
 }
+
+export const useGlobalCampaign =
+  createGlobalState<InitProposalProps>(DEFAULT_PROPOSAL)

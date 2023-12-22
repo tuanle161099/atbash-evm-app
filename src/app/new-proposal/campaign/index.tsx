@@ -5,9 +5,9 @@ import dayjs from 'dayjs'
 import { DatePicker } from 'antd'
 import { Clock, FileUp, X } from 'lucide-react'
 
-import { useGlobalCampaign } from '../page'
 import { fileToBase64 } from '@/helpers/utils'
 import { InitProposalProps, ProposalMetadata } from '@/types'
+import { useGlobalCampaign } from '@/hooks/atbash'
 
 type CampaignProp = {
   onNext: () => void
