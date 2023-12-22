@@ -26,7 +26,7 @@ export default function Home() {
             </div>
             <div className="w-full grid grid-cols-12 gap-4">
               {Array.from(Array(amount).keys()).map((proposalId) => (
-                <div className="col-span-3" key={proposalId}>
+                <div className="col-span-4" key={proposalId}>
                   <ProposalCard proposalId={proposalId} />
                 </div>
               ))}

@@ -48,6 +48,7 @@ export const useProposalData = (proposalId: number) => {
     functionName: 'getProposal',
     args: [proposalId],
   })
+
   return data as Proposal
 }
 
