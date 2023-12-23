@@ -1,5 +1,4 @@
 import { InitProposalProps, ProposalMetadata } from '@/types'
-import { createGlobalState } from 'react-use'
 
 const DEFAULT_PROPOSAL_METADATA: ProposalMetadata = {
   title: '',

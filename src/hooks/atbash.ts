@@ -60,7 +60,7 @@ export const useMetadata = (proposalId: number) => {
 
   const fetcher = useCallback(async ([metadata]: [any]) => {
     if (!metadata) return
-    let cid = encode(Buffer.from(hexToBytes(metadata)))
+    const cid = encode(Buffer.from(hexToBytes(metadata)))
     const fileName = toFilename(cid)
     const url =
       'https://hnreqcvgchtokkqynbli.supabase.co/storage/v1/object/public/atbash/public/' +
@@ -82,7 +82,7 @@ export const useCandidateData = (proposalId: number, candidate: string) => {
     if (!metadata) return { name: '', avatar: '', description: '' }
     const { proposalMetadata } = metadata
     return proposalMetadata.candidateMetadata[candidate] as CandidateMetadata
-  }, [proposalId, candidate, metadata])
+  }, [candidate, metadata])
 
   return candidateMetadata
 }
@@ -133,7 +133,7 @@ export const useInitProposal = (props: InitProposalProps) => {
       ],
     })
     return tx.hash
-  }, [props])
+  }, [props, pubkey, writeAsync, merkleDistributor])
 
   return initProposal
 }
@@ -190,7 +190,15 @@ export const useVote = (proposalId: number, votFor: string) => {
       ],
     })
     return tx.hash
-  }, [metadata, pubkey, proposal, proposalId, votFor, walletAddress])
+  }, [
+    metadata,
+    pubkey,
+    proposal,
+    walletAddress,
+    writeAsync,
+    proposalId,
+    votFor,
+  ])
 
   return onVote
 }
@@ -211,7 +219,7 @@ export const useGetWinner = (proposalId: number) => {
 
     const totalBallot: number[] = await BSGS(decryptedPoints, 100)
     return totalBallot
-  }, [proposalId, proposal])
+  }, [proposal])
 
   return getWinner
 }
@@ -219,7 +227,6 @@ export const useGetWinner = (proposalId: number) => {
 export const useReceipt = (proposalId: number) => {
   const { abi, address } = useAtbashContract()
   const { address: walletAddress } = useAccount()
-  if (!walletAddress) return false
 
   const { data } = useContractRead({
     address,

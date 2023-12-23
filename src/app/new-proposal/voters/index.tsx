@@ -75,7 +75,7 @@ export default function Voters({ onBack }: VotersProp) {
     const nextCampaign = { ...campaign, voters: newData }
     setCampaign(nextCampaign)
     setNewAddress('')
-  }, [newAddress])
+  }, [newAddress, voters, campaign, setCampaign])
 
   const onInitCampaign = useCallback(async () => {
     try {
@@ -95,7 +95,7 @@ export default function Voters({ onBack }: VotersProp) {
     } finally {
       setLoading(false)
     }
-  }, [initProposal])
+  }, [initProposal, pushMessage, setCampaign])
 
   useEffect(() => {
     if (!file) return () => {}
@@ -115,7 +115,7 @@ export default function Voters({ onBack }: VotersProp) {
         }
       },
     })
-  }, [file, pushMessage])
+  }, [campaign, file, pushMessage, setCampaign, voters])
 
   return (
     <div className="grid grid-cols-12 gap-4">
@@ -160,7 +160,7 @@ export default function Voters({ onBack }: VotersProp) {
         </div>
       </div>
       <div className="col-span-full">
-        <Dropzone file={file} onChange={setFile} templateFile="/airdrop.csv" />
+        <Dropzone file={file} onChange={setFile} />
       </div>
       <div className="col-span-full grid grid-cols-1 lg:grid-cols-2 gap-2">
         <button onClick={onBack} className="btn  w-full text-black mt-4">

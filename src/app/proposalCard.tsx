@@ -1,14 +1,13 @@
 'use client'
 import Link from 'next/link'
 
-import { useMetadata, useProposalData } from '@/hooks/atbash'
+import { useMetadata } from '@/hooks/atbash'
 
 type ProposalCardProps = {
   proposalId: number
 }
 
 export default function ProposalCard({ proposalId }: ProposalCardProps) {
-  const proposal = useProposalData(proposalId)
   const { proposalMetadata } = useMetadata(proposalId) || {
     proposalMetadata: { title: '', description: '', image: '' },
   }

@@ -8,13 +8,11 @@ import { FileUp, X } from 'lucide-react'
 export type DropzoneProps = {
   file?: File
   onChange?: (value: File | undefined) => void
-  templateFile?: string
 }
 
 export default function Dropzone({
   file = undefined,
   onChange = () => {},
-  templateFile = '',
 }: DropzoneProps) {
   const onDrop = useCallback(
     (files: File[]) => {
@@ -33,14 +31,14 @@ export default function Dropzone({
     disabled: !!file,
   })
 
-  const downloadFile = (templateFile: string) => {
-    if (!templateFile) return
+  // const downloadFile = (templateFile: string) => {
+  //   if (!templateFile) return
 
-    const event = document.createElement('a')
-    event.href = templateFile
-    document.body.appendChild(event)
-    event.click()
-  }
+  //   const event = document.createElement('a')
+  //   event.href = templateFile
+  //   document.body.appendChild(event)
+  //   event.click()
+  // }
 
   const onClear = useCallback(() => {
     if (inputRef.current) inputRef.current.value = ''

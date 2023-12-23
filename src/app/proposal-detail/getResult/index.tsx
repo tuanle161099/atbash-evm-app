@@ -28,7 +28,7 @@ export default function GetResult({ proposalId }: GetResultProps) {
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [getWinner, pushMessage])
   return (
     <Fragment>
       <button

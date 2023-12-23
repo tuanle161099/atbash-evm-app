@@ -1,17 +1,14 @@
 'use client'
 import { useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { createGlobalState } from 'react-use'
 
 import { ChevronLeft } from 'lucide-react'
 import { Steps } from 'antd'
-
-import './index.scss'
-import { InitProposalProps, ProposalMetadata } from '@/types'
 import Campaign from './campaign'
 import Candidates from './candidates'
 import Voters from './voters'
-import { DEFAULT_PROPOSAL } from '@/constants'
+
+import './index.scss'
 
 const PROPOSAL_INFO = 0
 const CANDIDATE_INFO = 1

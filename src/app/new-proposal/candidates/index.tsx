@@ -1,8 +1,8 @@
 import { Plus } from 'lucide-react'
-import { useGlobalCampaign } from '../page'
 import CandidateInput from './candidateInput'
 import { isAddress } from 'ethers'
 import { useState } from 'react'
+import { useGlobalCampaign } from '@/hooks/atbash'
 
 type CandidatesProp = {
   onBack: () => void

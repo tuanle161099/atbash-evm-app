@@ -38,11 +38,11 @@ export default function Vote({ candidate, proposalId }: VoteProps) {
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [pushMessage, vote])
 
   useEffect(() => {
     if (receipt) setVoted(receipt)
-  }, [])
+  }, [receipt])
 
   return (
     <Fragment>

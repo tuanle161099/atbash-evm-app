@@ -37,7 +37,7 @@ export default function Campaign({ onNext }: CampaignProp) {
     value: string | number | null,
   ) => setInfo({ ...info, [name]: value })
 
-  const { getRootProps, getInputProps, isDragActive, inputRef } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
       'image/jpeg': [],
