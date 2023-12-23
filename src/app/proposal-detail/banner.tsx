@@ -1,6 +1,5 @@
 'use client'
 import Image from 'next/image'
-import { useSearchParams } from 'next/navigation'
 
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 
@@ -11,9 +10,6 @@ type BannerProps = {
 }
 
 export default function Banner({ imageUrl }: BannerProps) {
-  const searchParams = useSearchParams()
-  const proposalId = searchParams.get('proposalId') || ''
-
   return (
     <div
       className="hero h-64 p-6 banner-campaign before:h-64"

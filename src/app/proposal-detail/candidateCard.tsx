@@ -2,27 +2,19 @@
 import Clipboard from '@/components/clipboard'
 
 import { shortenAddress } from '@/helpers/utils'
-import CandidateModal from './candidateModal'
-import { useMetadata } from '@/hooks/atbash'
+import { useCandidateData } from '@/hooks/atbash'
+import Vote from './vote'
 
 type CandidateCardProps = {
-  address: string
-  proposalId: string
+  candidate: string
+  proposalId: number
 }
 
 export default function CandidateCard({
-  address,
+  candidate,
   proposalId,
 }: CandidateCardProps) {
-  const { proposalMetadata } = useMetadata(Number(proposalId)) || {
-    proposalMetadata: { candidateMetadata: {} },
-  }
-  const candidates = proposalMetadata?.candidateMetadata
-  const { avatar, name, description } = candidates[address] || {
-    avatar: '',
-    name: '',
-    description: '',
-  }
+  const { avatar, name, description } = useCandidateData(proposalId, candidate)
 
   return (
     <div className="card candidate-card h-80 bg-base-100 shadow-xl image-full">
@@ -34,17 +26,13 @@ export default function CandidateCard({
         <p>{description}</p>
         <div className="flex justify-between">
           <div className="flex items-center">
-            <p>{shortenAddress(address)}</p>
+            <p>{shortenAddress(candidate)}</p>
             <Clipboard
               tooltipClassName="tooltip tooltip-right"
-              content={address}
+              content={candidate}
             />
           </div>
-          <CandidateModal
-            name={name}
-            description={description}
-            avatar={avatar}
-          />
+          <Vote candidate={candidate} proposalId={Number(proposalId)} />
         </div>
       </div>
     </div>

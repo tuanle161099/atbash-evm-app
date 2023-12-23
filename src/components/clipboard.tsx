@@ -1,7 +1,6 @@
 'use client'
 import { useCallback, useState } from 'react'
 import copy from 'copy-to-clipboard'
-import classNames from 'classnames'
 
 import { Check, Copy } from 'lucide-react'
 import { asyncWait } from '@/helpers/utils'
