@@ -57,7 +57,10 @@ export default function NewProposal() {
   return (
     <div className="bg-base-100 p-6 rounded-2xl grid grid-cols-12 gap-4">
       <div className="col-span-12 flex items-center justify-between">
-        <button className="btn btn-sm btn-ghost -ml-3" onClick={back}>
+        <button
+          className="btn btn-sm bg-white shadow-inherit border-0 -ml-3"
+          onClick={back}
+        >
           <ChevronLeft /> Back
         </button>
         <h5>New Campaign</h5>
