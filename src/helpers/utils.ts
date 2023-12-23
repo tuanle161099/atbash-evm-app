@@ -1,4 +1,7 @@
 import numbro from 'numbro'
+import * as secp256k1 from '@noble/secp256k1'
+import { isAddress } from 'ethers'
+import axios from 'axios'
 
 /**
  * Delay by async/await
@@ -61,4 +64,52 @@ export const fileToBase64 = (
   reader.onload = async () => {
     if (reader.result) callback(reader.result.toString())
   }
+}
+
+export const randomNumber = () => {
+  const r = secp256k1.utils.randomBytes(16)
+  return secp256k1.utils.mod(
+    BigInt(`0x${secp256k1.utils.bytesToHex(r)}`),
+    secp256k1.CURVE.P,
+  )
+}
+
+/**
+ * Build an explorer url by the context including addresses or transaction ids
+ * @param addressOrTxId - Address or TxId
+ * @param cluster - Network
+ * @returns Solcan URL
+ */
+export const tomoscan = (addressOrTxId: string): string => {
+  const pathname = isAddress(addressOrTxId) ? 'address' : 'tx'
+  return `https://testnet.tomoscan.io/${pathname}/${addressOrTxId}`
+}
+
+export const BSGS = async (points: secp256k1.Point[], total: number) => {
+  const P = secp256k1.Point.BASE
+  const result: number[] = []
+  for (const G of points) {
+    for (let j = 1; j <= total; j++) {
+      if (secp256k1.Point.ZERO.equals(G)) {
+        result.push(0)
+        break
+      }
+      if (P.multiply(j).equals(G)) {
+        result.push(j)
+        break
+      }
+    }
+  }
+  return result
+}
+
+export const decrypt = async (C: secp256k1.Point, R: secp256k1.Point) => {
+  const { data } = await axios.post(
+    'https://atbash-system.onrender.com/ec/decrypt/evm',
+    {
+      message: C.toHex(),
+      r: R.toHex(),
+    },
+  )
+  return data.message
 }

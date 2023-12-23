@@ -12,8 +12,8 @@ export default function Home() {
   const { amount } = useProposalCount()
   return (
     <Island>
-      <div className="flex flex-col gap-6">
-        <header className="sticky top-0 z-10">
+      <div className="flex flex-col gap-6 pb-6">
+        <header>
           <Header />
         </header>
         <div className="flex flex-col items-center">
@@ -26,7 +26,7 @@ export default function Home() {
             </div>
             <div className="w-full grid grid-cols-12 gap-4">
               {Array.from(Array(amount).keys()).map((proposalId) => (
-                <div className="col-span-3" key={proposalId}>
+                <div className="col-span-4" key={proposalId}>
                   <ProposalCard proposalId={proposalId} />
                 </div>
               ))}

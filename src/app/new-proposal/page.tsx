@@ -1,51 +1,36 @@
 'use client'
 import { useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { createGlobalState } from 'react-use'
 
 import { ChevronLeft } from 'lucide-react'
 import { Steps } from 'antd'
-
-import './index.scss'
-import { InitProposalProps, ProposalMetadata } from '@/types'
 import Campaign from './campaign'
 import Candidates from './candidates'
 import Voters from './voters'
+
+import './index.scss'
 
 const PROPOSAL_INFO = 0
 const CANDIDATE_INFO = 1
 const VOTER_ACCEPTED = 2
 
-const DEFAULT_PROPOSAL_METADATA: ProposalMetadata = {
-  title: '',
-  description: '',
-  image: '',
-  candidateMetadata: {},
-}
-
-const DEFAULT_PROPOSAL: InitProposalProps = {
-  startTime: Date.now(), //now
-  endTime: Date.now() + 3 * (24 * 60 * 60 * 1000), // Add more 3 days
-  voters: [],
-  candidates: [],
-  proposalMetadata: DEFAULT_PROPOSAL_METADATA,
-}
-
-export const useGlobalCampaign =
-  createGlobalState<InitProposalProps>(DEFAULT_PROPOSAL)
-
 export default function NewProposal() {
   const [step, setStep] = useState(PROPOSAL_INFO)
-  const { back, push } = useRouter()
+  const { back } = useRouter()
 
   const processInit = useMemo(() => {
     switch (step) {
       case PROPOSAL_INFO:
-        return <Candidates />
-      case CANDIDATE_INFO:
         return <Campaign onNext={() => setStep(CANDIDATE_INFO)} />
+      case CANDIDATE_INFO:
+        return (
+          <Candidates
+            onBack={() => setStep(PROPOSAL_INFO)}
+            onNext={() => setStep(VOTER_ACCEPTED)}
+          />
+        )
       case VOTER_ACCEPTED:
-        return <Voters />
+        return <Voters onBack={() => setStep(CANDIDATE_INFO)} />
     }
   }, [step])
 

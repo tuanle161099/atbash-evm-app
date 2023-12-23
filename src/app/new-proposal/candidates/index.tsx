@@ -1,10 +1,15 @@
 import { Plus } from 'lucide-react'
-import { useGlobalCampaign } from '../page'
 import CandidateInput from './candidateInput'
 import { isAddress } from 'ethers'
 import { useState } from 'react'
+import { useGlobalCampaign } from '@/hooks/atbash'
 
-export default function Candidates() {
+type CandidatesProp = {
+  onBack: () => void
+  onNext: () => void
+}
+
+export default function Candidates({ onNext, onBack }: CandidatesProp) {
   const [campaign, seCampaign] = useGlobalCampaign()
   const [address, setAddress] = useState('')
   const { candidates } = campaign
@@ -50,8 +55,13 @@ export default function Candidates() {
         </div>
       ))}
       <div className="col-span-full grid grid-cols-1 lg:grid-cols-2 gap-2">
-        <button className="btn  w-full text-black mt-4">Back</button>
-        <button className="btn btn-primary w-full text-black mt-4">
+        <button onClick={onBack} className="btn  w-full text-black mt-4">
+          Back
+        </button>
+        <button
+          onClick={onNext}
+          className="btn btn-primary w-full text-black mt-4"
+        >
           Continue
         </button>
       </div>

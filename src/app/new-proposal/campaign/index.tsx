@@ -5,9 +5,9 @@ import dayjs from 'dayjs'
 import { DatePicker } from 'antd'
 import { Clock, FileUp, X } from 'lucide-react'
 
-import { useGlobalCampaign } from '../page'
 import { fileToBase64 } from '@/helpers/utils'
 import { InitProposalProps, ProposalMetadata } from '@/types'
+import { useGlobalCampaign } from '@/hooks/atbash'
 
 type CampaignProp = {
   onNext: () => void
@@ -37,7 +37,7 @@ export default function Campaign({ onNext }: CampaignProp) {
     value: string | number | null,
   ) => setInfo({ ...info, [name]: value })
 
-  const { getRootProps, getInputProps, isDragActive, inputRef } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
       'image/jpeg': [],
@@ -58,7 +58,7 @@ export default function Campaign({ onNext }: CampaignProp) {
         <p>Campaign Title</p>
         <input
           className="input bg-gray-100"
-          placeholder="Input link"
+          placeholder="Input your project name"
           maxLength={64}
           value={title}
           onChange={(e) => onChangeInfo('title', e.target.value)}
@@ -68,7 +68,7 @@ export default function Campaign({ onNext }: CampaignProp) {
         <p>Campaign descriptions</p>
         <textarea
           className="textarea bg-gray-100"
-          placeholder="Input link"
+          placeholder="Summarize about your campaign..."
           maxLength={120}
           value={description}
           onChange={(e) => onChangeInfo('description', e.target.value)}
