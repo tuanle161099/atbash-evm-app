@@ -1,7 +1,7 @@
 export type Proposal = {
   merkleRoot: string
   metadata: string
-  ballotBoxes: [bigint, bigint][]
+  ballotBoxes: { x: bigint; y: bigint }[]
   startDate: bigint
   endDate: bigint
   randomNumbers: bigint[]

@@ -8,6 +8,11 @@ import { useMetadata } from '@/hooks/atbash'
 
 import './index.scss'
 
+import Vote from './vote'
+import GetResult from './getResult'
+
+import { useProposalData } from '@/hooks/atbash'
+
 export default function ProposalDetail() {
   const { back } = useRouter()
   const searchParams = useSearchParams()

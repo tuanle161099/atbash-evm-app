@@ -7,9 +7,9 @@ import RowVoter from './row'
 import Dropzone from '@/components/dropzone'
 
 import { usePushMessage } from '@/components/message/store'
-import { DEFAULT_PROPOSAL, useGlobalCampaign } from '../page'
-import { useInitProposal } from '@/hooks/atbash'
+import { useGlobalCampaign, useInitProposal } from '@/hooks/atbash'
 import { tomoscan } from '@/helpers/utils'
+import { DEFAULT_PROPOSAL } from '@/constants'
 
 enum RowStatus {
   Good,
@@ -75,23 +75,27 @@ export default function Voters({ onBack }: VotersProp) {
     const nextCampaign = { ...campaign, voters: newData }
     setCampaign(nextCampaign)
     setNewAddress('')
-  }, [newAddress])
+  }, [newAddress, voters, campaign, setCampaign])
 
   const onInitCampaign = useCallback(async () => {
     try {
       setLoading(true)
       const txId = await initProposal()
 
-      pushMessage('alert-success', 'Initialize proposal successfully!', {
-        onClick: () => window.open(tomoscan(txId || ''), '_blank'),
-      })
+      pushMessage(
+        'alert-success',
+        'Initialize proposal successfully Click to view details.',
+        {
+          onClick: () => window.open(tomoscan(txId || ''), '_blank'),
+        },
+      )
       return setCampaign(DEFAULT_PROPOSAL)
     } catch (er: any) {
       return pushMessage('alert-error', er.message)
     } finally {
       setLoading(false)
     }
-  }, [initProposal])
+  }, [initProposal, pushMessage, setCampaign])
 
   useEffect(() => {
     if (!file) return () => {}
@@ -111,7 +115,7 @@ export default function Voters({ onBack }: VotersProp) {
         }
       },
     })
-  }, [file, pushMessage])
+  }, [campaign, file, pushMessage, setCampaign, voters])
 
   return (
     <div className="grid grid-cols-12 gap-4">
@@ -156,7 +160,7 @@ export default function Voters({ onBack }: VotersProp) {
         </div>
       </div>
       <div className="col-span-full">
-        <Dropzone file={file} onChange={setFile} templateFile="/airdrop.csv" />
+        <Dropzone file={file} onChange={setFile} />
       </div>
       <div className="col-span-full grid grid-cols-1 lg:grid-cols-2 gap-2">
         <button onClick={onBack} className="btn w-full text-black mt-4">

@@ -1,9 +1,9 @@
-import { ImagePlus, Plus, Trash, X } from 'lucide-react'
-import { useGlobalCampaign } from '../page'
-import { ChangeEvent, useRef, useState } from 'react'
+import { ImagePlus, Trash, X } from 'lucide-react'
+import { ChangeEvent, useRef } from 'react'
 import { fileToBase64 } from '@/helpers/utils'
 import { CandidateMetadata } from '@/types'
 import { isAddress } from 'ethers'
+import { useGlobalCampaign } from '@/hooks/atbash'
 
 type CandidateInputProps = {
   address?: string
