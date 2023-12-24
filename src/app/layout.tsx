@@ -11,6 +11,7 @@ const thumbnail = '/thumbnail.jpeg'
 export const metadata: Metadata = {
   title,
   description,
+  metadataBase: new URL('https://viction.atbash.xyz'),
   openGraph: {
     title,
     description,

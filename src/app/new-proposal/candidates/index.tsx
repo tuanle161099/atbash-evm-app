@@ -55,7 +55,11 @@ export default function Candidates({ onNext, onBack }: CandidatesProp) {
         </div>
       ))}
       <div className="col-span-full grid grid-cols-1 lg:grid-cols-2 gap-2">
-        <button onClick={onBack} className="btn  w-full text-black mt-4">
+        <button
+          disabled={!candidates.length}
+          onClick={onBack}
+          className="btn  w-full text-black mt-4"
+        >
           Back
         </button>
         <button

@@ -103,7 +103,10 @@ export const BSGS = async (points: secp256k1.Point[], total: number) => {
   return result
 }
 
-export const decrypt = async (C: secp256k1.Point, R: secp256k1.Point) => {
+export const decrypt = async (
+  C: secp256k1.Point,
+  R: secp256k1.Point,
+): Promise<{ x: string; y: string }> => {
   const { data } = await axios.post(
     'https://atbash-system.onrender.com/ec/decrypt/evm',
     {

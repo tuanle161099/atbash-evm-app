@@ -7,6 +7,8 @@ export type Proposal = {
   randomNumbers: bigint[]
   candidates: string[]
   commitment: bigint
+  authority: string
+  results: bigint[]
 }
 
 export type CandidateMetadata = {

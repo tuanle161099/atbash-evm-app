@@ -6,8 +6,9 @@ import CandidateCard from './candidateCard'
 import { ChevronLeft } from 'lucide-react'
 import GetResult from './getResult'
 import TimeCountDown from '@/components/timeCountDown'
+import { useAccount } from 'wagmi'
 
-import { useMetadata } from '@/hooks/atbash'
+import { useMetadata, useProposalData } from '@/hooks/atbash'
 
 import './index.scss'
 
@@ -23,39 +24,41 @@ export default function ProposalDetail() {
       candidateMetadata: {},
     },
   }
+  const { address } = useAccount()
+  const proposal = useProposalData(Number(proposalId))
 
   return (
-    <div className="w-full">
+    <div className="w-full ">
       <Banner imageUrl={proposalMetadata.image} />
-      <div className="max-w-[1040px] relative flex flex-col align-middle gap-2 mx-auto -top-20">
+      <div className="max-w-[1040px] relative flex flex-col align-middle gap-2 mx-auto -top-20 p-4">
         <div>
-          <button onClick={back} className="btn btn-primary btn-sm text-black">
+          <button onClick={back} className="btn  btn-sm text-black">
             <ChevronLeft /> Back
           </button>
         </div>
-        <div className="card bg-[#F2F4FA] p-6 rounded-2xl grid grid-cols-12 gap-4">
-          <div className="col-span-full flex justify-between">
-            <h4>{proposalMetadata.title}</h4>
-            <GetResult proposalId={Number(proposalId)} />
+        <div className="card bg-[#F2F4FA] p-4 rounded-2xl flex-row gap-1 justify-between">
+          <div className="flex flex-col gap-4">
+            <h5>{proposalMetadata.title}</h5>
+            <p className="opacity-50">{proposalMetadata.description}</p>
           </div>
-          <div className="col-span-full">
+          <div className="flex flex-col gap-4">
+            {!!proposal && proposal.authority === address && (
+              <GetResult proposalId={Number(proposalId)} />
+            )}
             <TimeCountDown proposalId={Number(proposalId)} />
           </div>
-          <div className="col-span-full">
-            <h5>Description</h5>
-            <p>{proposalMetadata.description}</p>
-          </div>
         </div>
-        <div className="card bg-[#F2F4FA] p-6 rounded-2xl flex flex-col gap-6">
-          <h5>Campaign Candidate</h5>
-          <div className="grid grid-cols-3 items-center gap-2">
+        <div className="card bg-[#F2F4FA] p-4 rounded-2xl flex flex-col gap-4">
+          <h5>Candidate Slate</h5>
+          <div className="grid grid-cols-12 gap-3">
             {Object.keys(proposalMetadata.candidateMetadata).map(
               (candidate) => (
-                <CandidateCard
-                  key={candidate}
-                  candidate={candidate}
-                  proposalId={Number(proposalId)}
-                />
+                <div className="col-span-3" key={candidate}>
+                  <CandidateCard
+                    candidate={candidate}
+                    proposalId={Number(proposalId)}
+                  />
+                </div>
               ),
             )}
           </div>

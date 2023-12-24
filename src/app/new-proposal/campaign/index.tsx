@@ -69,7 +69,7 @@ export default function Campaign({ onNext }: CampaignProp) {
         <textarea
           className="textarea bg-gray-100"
           placeholder="Summarize about your campaign..."
-          maxLength={120}
+          maxLength={280}
           value={description}
           onChange={(e) => onChangeInfo('description', e.target.value)}
         />

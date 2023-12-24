@@ -78,6 +78,9 @@ export default function CandidateInput({ address = '' }: CandidateInputProps) {
           )}
         </div>
         <div className="flex-auto flex flex-col gap-2">
+          <p>
+            Wallet Address: <span className="opacity-50">{address}</span>
+          </p>
           <input
             onChange={(e) => onCandidateChange('name', e.target.value)}
             placeholder="Input candidate's name"

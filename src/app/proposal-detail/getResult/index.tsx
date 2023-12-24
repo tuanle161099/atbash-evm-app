@@ -1,12 +1,12 @@
 'use client'
-import { Fragment, useCallback, useMemo, useState } from 'react'
+import { Fragment, useCallback, useEffect, useMemo, useState } from 'react'
+import classNames from 'classnames'
 
 import { usePushMessage } from '@/components/message/store'
 import Modal from '@/components/modal'
-import { PackageCheck } from 'lucide-react'
+import { Leaf } from 'lucide-react'
 
 import { useCandidateData, useGetWinner, useProposalData } from '@/hooks/atbash'
-import classNames from 'classnames'
 
 type GetResultProps = {
   proposalId: number
@@ -15,6 +15,7 @@ export default function GetResult({ proposalId }: GetResultProps) {
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [isGetResult, setIsGetResult] = useState(false)
+
   const pushMessage = usePushMessage()
   const getWinner = useGetWinner(proposalId)
   const proposal = useProposalData(proposalId)
@@ -38,42 +39,47 @@ export default function GetResult({ proposalId }: GetResultProps) {
     }
   }, [getWinner, pushMessage])
 
+  useEffect(() => {
+    if (proposal) setResult(proposal.results.map((e) => Number(e)))
+  }, [proposal])
+
   if (!proposal) return <Fragment />
   return (
     <Fragment>
       <button
         onClick={() => setOpen(true)}
-        className="btn btn-primary btn-sm text-black"
+        className="btn btn-primary  text-black btn-sm"
       >
-        <PackageCheck /> Get Result
+        <Leaf /> Get Result
       </button>
-      <Modal className="max-w-4xl" open={open} onCancel={() => setOpen(false)}>
+      <Modal className="max-w-3xl" open={open} onCancel={() => setOpen(false)}>
         <div className="flex flex-col w-full gap-6 items-center rounded-lg">
           <h5>{isGetResult ? 'Results' : 'Get Results'}</h5>
-          <div className="flex flex-row flex-wrap w-full gap-4 max-h-80  justify-center overflow-y-auto">
+          <div className="grid grid-cols-12 gap-4 w-full">
             {proposal.candidates.map((address, i) => (
-              <Candidate
-                key={address}
-                address={address}
-                proposalId={Number(proposalId)}
-                result={result[i]}
-                active={!!result[i] && result[i] === maxResult}
-              />
+              <div key={address} className="col-span-4">
+                <Candidate
+                  address={address}
+                  proposalId={Number(proposalId)}
+                  result={result[i]}
+                  active={!!result[i] && result[i] === maxResult}
+                />
+              </div>
             ))}
           </div>
-          {isGetResult ? (
-            <button onClick={() => setOpen(false)} className="btn ">
+          {maxResult > 0 ? (
+            <button onClick={() => setOpen(false)} className="btn btn-block">
               Close
             </button>
           ) : (
             <button
               onClick={onGetWinner}
-              className="btn btn-primary text-black "
+              className="btn btn-primary text-black btn-block"
             >
               {loading && (
                 <span className="loading loading-spinner loading-sm" />
               )}
-              Get result
+              <Leaf /> Get result
             </button>
           )}
         </div>
@@ -98,34 +104,24 @@ const Candidate = ({
   const { avatar, name } = useCandidateData(proposalId, address)
 
   return (
-    <div className="flex flex-col relative ">
-      <p
+    <div
+      className={classNames(
+        'flex flex-col bg-base-200 rounded-2xl p-4 items-center gap-2',
+        { 'border-2 border-primary': active },
+      )}
+    >
+      <p className={classNames('text-center font-bold')}>{name}</p>
+      <figure>
+        <img src={avatar} alt="Candidate" className="aspect-square" />
+      </figure>
+      <h4
         className={classNames(
-          'p-2 font-semibold bg-[#ECEADD] rounded-t-2xl text-center',
+          'text-sm bg-base-100 p-2 rounded-lg w-full text-center self-end',
           { 'bg-primary': active },
         )}
       >
-        {name}
-      </p>
-      <div
-        className={classNames(
-          'card rounded-t-none h-64 w-64 bg-[#ECEADD] image-full',
-        )}
-      >
-        <figure>
-          <img src={avatar} alt="Candidate" />
-        </figure>
-        <div className="flex p-4">
-          <h4
-            className={classNames(
-              'text-sm bg-base-200 p-2 rounded-lg w-full text-center self-end',
-              { 'bg-primary': active },
-            )}
-          >
-            {result}
-          </h4>
-        </div>
-      </div>
+        {result}
+      </h4>
     </div>
   )
 }

@@ -10,6 +10,7 @@ import { usePushMessage } from '@/components/message/store'
 import { useGlobalCampaign, useInitProposal } from '@/hooks/atbash'
 import { tomoscan } from '@/helpers/utils'
 import { DEFAULT_PROPOSAL } from '@/constants'
+import { useRouter } from 'next/navigation'
 
 enum RowStatus {
   Good,
@@ -29,6 +30,7 @@ export default function Voters({ onBack }: VotersProp) {
   const { voters } = campaign
   const pushMessage = usePushMessage()
   const initProposal = useInitProposal(campaign)
+  const { push } = useRouter()
 
   const statuses = useMemo(
     () =>
@@ -89,13 +91,14 @@ export default function Voters({ onBack }: VotersProp) {
           onClick: () => window.open(tomoscan(txId || ''), '_blank'),
         },
       )
+      push('/')
       return setCampaign(DEFAULT_PROPOSAL)
     } catch (er: any) {
       return pushMessage('alert-error', er.message)
     } finally {
       setLoading(false)
     }
-  }, [initProposal, pushMessage, setCampaign])
+  }, [initProposal, push, pushMessage, setCampaign])
 
   useEffect(() => {
     if (!file) return () => {}
@@ -169,6 +172,7 @@ export default function Voters({ onBack }: VotersProp) {
         <button
           onClick={onInitCampaign}
           className="btn btn-primary w-full text-black mt-4"
+          disabled={!voters.length || !!errors}
         >
           {loading && <span className="loading loading-spinner loading-sm" />}
           Create Campaign

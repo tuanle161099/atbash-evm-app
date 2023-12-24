@@ -24,7 +24,7 @@ export const useAtbashContract = () => {
     abi: typeof Atbash
   } => {
     return {
-      address: '0x5aeB2f77E1829B14461588370E9C132d214dd3Ad',
+      address: '0xF770B7354bf8AF4e39Eb02f6894F115187887b5d',
       abi: Atbash,
     }
   }, [])
@@ -81,6 +81,7 @@ export const useCandidateData = (proposalId: number, candidate: string) => {
   const candidateMetadata = useMemo(() => {
     if (!metadata) return { name: '', avatar: '', description: '' }
     const { proposalMetadata } = metadata
+    console.log(proposalMetadata)
     return proposalMetadata.candidateMetadata[candidate] as CandidateMetadata
   }, [candidate, metadata])
 
@@ -205,6 +206,12 @@ export const useVote = (proposalId: number, votFor: string) => {
 
 export const useGetWinner = (proposalId: number) => {
   const proposal = useProposalData(proposalId)
+  const { abi, address } = useAtbashContract()
+  const { writeAsync } = useContractWrite({
+    address,
+    abi,
+    functionName: 'submitResult',
+  })
 
   const getWinner = useCallback(async () => {
     const P = secp256k1.Point.BASE
@@ -213,15 +220,39 @@ export const useGetWinner = (proposalId: number) => {
         const C = new secp256k1.Point(x, y)
         const R = P.multiply(proposal.randomNumbers[i])
         const M = await decrypt(C, R)
-        return secp256k1.Point.fromHex(M)
+        return new secp256k1.Point(BigInt(M.x), BigInt(M.y))
       }),
     )
 
     const totalBallot: number[] = await BSGS(decryptedPoints, 100)
+
+    await writeAsync({
+      args: [totalBallot, proposalId],
+    })
     return totalBallot
-  }, [proposal])
+  }, [proposal.ballotBoxes, proposal.randomNumbers, proposalId, writeAsync])
 
   return getWinner
+}
+
+export const useWinner = (proposalId: number) => {
+  const proposal = useProposalData(proposalId)
+  const winner = useMemo(() => {
+    if (!proposal) return ''
+    const { results, endDate, candidates } = proposal
+
+    const end = Number(endDate) * 1000
+    if (Date.now() < end) return ''
+    const total = results.reduce((a, b) => a + b, BigInt(0))
+    if (total === BigInt(0)) return ''
+
+    const num = results.map((e) => Number(e))
+    const max = Math.max(...num)
+    const i = num.findIndex((e) => e === max)
+    return candidates[i]
+  }, [proposal])
+
+  return winner
 }
 
 export const useReceipt = (proposalId: number) => {
@@ -232,7 +263,7 @@ export const useReceipt = (proposalId: number) => {
     address,
     abi,
     functionName: 'receipts',
-    args: [proposalId, walletAddress],
+    args: [BigInt(proposalId), walletAddress],
   })
   return !!data
 }

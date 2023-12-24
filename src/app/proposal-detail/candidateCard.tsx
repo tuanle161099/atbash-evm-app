@@ -1,7 +1,6 @@
 'use client'
-import Clipboard from '@/components/clipboard'
 
-import { shortenAddress } from '@/helpers/utils'
+import { shortenAddress, tomoscan } from '@/helpers/utils'
 import { useCandidateData } from '@/hooks/atbash'
 import Vote from './vote'
 
@@ -17,23 +16,22 @@ export default function CandidateCard({
   const { avatar, name, description } = useCandidateData(proposalId, candidate)
 
   return (
-    <div className="card candidate-card h-80 bg-base-100 shadow-xl image-full">
+    <div className="card bg-base-100 p-2">
       <figure>
-        <img src={avatar} alt="Shoes" />
+        <img src={avatar} alt="Shoes" className="rounded-2xl aspect-square" />
       </figure>
-      <div className="candidate-card-body flex flex-col gap-2 p-4">
-        <h2 className="card-title">{name}</h2>
-        <p>{description}</p>
-        <div className="flex justify-between">
-          <div className="flex items-center">
-            <p>{shortenAddress(candidate)}</p>
-            <Clipboard
-              tooltipClassName="tooltip tooltip-right"
-              content={candidate}
-            />
-          </div>
-          <Vote candidate={candidate} proposalId={Number(proposalId)} />
+      <div className="flex flex-col gap-2 p-2 ">
+        <div className="flex items-center gap-1">
+          <h5 className="flex-auto truncate">{name}</h5>
+          <p
+            className="caption opacity-50 hover:cursor-pointer hover:underline"
+            onClick={() => window.open(tomoscan(candidate), '_blank')}
+          >
+            {shortenAddress(candidate)}
+          </p>
         </div>
+        <p className="truncate">{description}</p>
+        <Vote candidate={candidate} proposalId={proposalId} />
       </div>
     </div>
   )

@@ -18,9 +18,9 @@ export default function TimeCountDown({ proposalId }: TimeCountDownProps) {
 
   useInterval(() => setCurrent(Date.now()), 1000)
 
-  const start = Number(proposal.startDate) * 1000
+  const start = Number(proposal?.startDate || 0) * 1000
   const startDuration = dayjs.duration(start - current)
-  const end = Number(proposal.endDate) * 1000
+  const end = Number(proposal?.endDate || 0) * 1000
   const endDuration = dayjs.duration(end - current)
 
   if (!proposal) return <Fragment />
@@ -43,7 +43,7 @@ export default function TimeCountDown({ proposalId }: TimeCountDownProps) {
       </div>
     )
   return (
-    <div className="flex flex-row items-center gap-2">
+    <div className="flex flex-row items-center gap-2 flex-nowrap">
       <p className="text-sm opacity-60">Ended in</p>
       <span className="join">
         <div className="badge badge-accent join-item">
