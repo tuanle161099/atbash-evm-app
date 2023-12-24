@@ -31,6 +31,7 @@ export default function CandidateInput({ address = '' }: CandidateInputProps) {
       },
     })
   }
+
   const onFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const [file] = Array.from(e.target.files || [])
     fileToBase64(file, (logo) => onCandidateChange('avatar', logo))

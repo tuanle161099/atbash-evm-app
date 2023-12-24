@@ -1,3 +1,4 @@
+'use client'
 import { Fragment, useCallback, useEffect, useState } from 'react'
 
 import Modal from '@/components/modal'
@@ -47,7 +48,7 @@ export default function Vote({ candidate, proposalId }: VoteProps) {
   return (
     <Fragment>
       <button
-        className="btn btn-primary text-black"
+        className="btn btn-sm btn-primary text-black"
         onClick={() => setOpen(true)}
       >
         Vote
@@ -67,7 +68,7 @@ export default function Vote({ candidate, proposalId }: VoteProps) {
             </div>
             <button
               onClick={onVote}
-              className="btn btn-primary text-black w-full "
+              className="btn btn-primary text-black w-full"
             >
               {loading && (
                 <span className="loading loading-spinner loading-sm" />

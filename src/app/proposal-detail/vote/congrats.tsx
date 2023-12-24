@@ -1,3 +1,5 @@
+'use client'
+
 export default function Congrats() {
   return (
     <div className="flex flex-col gap-6 items-center">

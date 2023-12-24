@@ -122,7 +122,7 @@ export default function Voters({ onBack }: VotersProp) {
       <div className="col-span-full flex flex-col gap-1">
         <h5>Voter Settings</h5>
         <p className="caption opacity-50">
-          Add the Solana wallet addresses of the voters eligible to join the
+          Add the EVM wallet addresses of the voters eligible to join the
           campaign
         </p>
       </div>
@@ -163,7 +163,7 @@ export default function Voters({ onBack }: VotersProp) {
         <Dropzone file={file} onChange={setFile} />
       </div>
       <div className="col-span-full grid grid-cols-1 lg:grid-cols-2 gap-2">
-        <button onClick={onBack} className="btn  w-full text-black mt-4">
+        <button onClick={onBack} className="btn w-full text-black mt-4">
           Back
         </button>
         <button
