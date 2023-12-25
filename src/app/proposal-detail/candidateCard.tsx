@@ -16,7 +16,7 @@ export default function CandidateCard({
   const { avatar, name, description } = useCandidateData(proposalId, candidate)
 
   return (
-    <div className="card bg-base-100 p-2">
+    <div className="card bg-base-100 p-2 h-full">
       <figure>
         <img src={avatar} alt="Shoes" className="rounded-2xl aspect-square" />
       </figure>

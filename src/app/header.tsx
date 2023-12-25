@@ -9,7 +9,7 @@ export default function Header() {
   return (
     <div
       style={{ background: "url('./banner.svg')" }}
-      className="flex flex-col gap-4 p-4 bg-cover bg-no-repeat"
+      className="flex flex-col gap-4 p-4 !bg-cover !bg-no-repeat"
     >
       <div className="flex-auto flex justify-between">
         <div className="w-32 h-11 ">

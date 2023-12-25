@@ -70,18 +70,17 @@ export const useMetadata = (proposalId: number) => {
     return data
   }, [])
 
-  const { data } = useSWR([metadata], fetcher)
+  const { data, isLoading } = useSWR([metadata], fetcher)
 
-  return data
+  return { metadata: data, isLoading }
 }
 
 export const useCandidateData = (proposalId: number, candidate: string) => {
-  const metadata = useMetadata(proposalId)
+  const { metadata } = useMetadata(proposalId)
 
   const candidateMetadata = useMemo(() => {
     if (!metadata) return { name: '', avatar: '', description: '' }
     const { proposalMetadata } = metadata
-    console.log(proposalMetadata)
     return proposalMetadata.candidateMetadata[candidate] as CandidateMetadata
   }, [candidate, metadata])
 
@@ -148,11 +147,12 @@ export const useVote = (proposalId: number, votFor: string) => {
   })
   const proposal = useProposalData(proposalId)
   const pubkey = usePubkey()
-  const metadata = useMetadata(proposalId)
+  const { metadata } = useMetadata(proposalId)
   const { address: walletAddress } = useAccount()
 
   const onVote = useCallback(async () => {
-    if (!metadata?.merkleBuff || !walletAddress) return
+    if (!walletAddress) throw new Error('Please connect wallet first!')
+    if (!metadata?.merkleBuff) throw new Error('Merkle root not found!')
     const merkleRoot = metadata.merkleBuff
     const merkle = MerkleDistributor.fromBuffer(Buffer.from(merkleRoot.data))
     const proof = merkle.prove(new Leaf(walletAddress))

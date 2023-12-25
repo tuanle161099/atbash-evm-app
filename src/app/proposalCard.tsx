@@ -4,22 +4,30 @@ import Link from 'next/link'
 import { useMetadata, useReceipt } from '@/hooks/atbash'
 import TimeCountDown from '@/components/timeCountDown'
 import WinnerAvatar from '@/components/winnerAvatar'
+import classNames from 'classnames'
 
 type ProposalCardProps = {
   proposalId: number
 }
 
 export default function ProposalCard({ proposalId }: ProposalCardProps) {
-  const { proposalMetadata } = useMetadata(proposalId) || {
+  const { metadata, isLoading } = useMetadata(proposalId)
+  const receipt = useReceipt(proposalId)
+  const { proposalMetadata } = metadata || {
     proposalMetadata: { title: '', description: '', image: '' },
   }
-  const receipt = useReceipt(proposalId)
-
   return (
     <Link href={`/proposal-detail?proposalId=${proposalId}`}>
-      <div className="w-full bg-base-100 rounded-2xl p-4 flex flex-col gap-4 h-full relative">
+      <div
+        className={classNames(
+          'w-full bg-base-100 rounded-2xl p-4 flex flex-col gap-4 h-full relative',
+          {
+            'animate-pulse': isLoading,
+          },
+        )}
+      >
         <img
-          className="aspect-video rounded-2xl"
+          className="aspect-video rounded-2xl  "
           alt="banner"
           src={proposalMetadata.image}
         />

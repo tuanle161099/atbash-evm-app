@@ -10,7 +10,7 @@ import { usePushMessage } from '@/components/message/store'
 import { useGlobalCampaign, useInitProposal } from '@/hooks/atbash'
 import { tomoscan } from '@/helpers/utils'
 import { DEFAULT_PROPOSAL } from '@/constants'
-import { useRouter } from 'next/navigation'
+import Congrats from '../congrat'
 
 enum RowStatus {
   Good,
@@ -25,12 +25,12 @@ type VotersProp = {
 export default function Voters({ onBack }: VotersProp) {
   const [campaign, setCampaign] = useGlobalCampaign()
   const [newAddress, setNewAddress] = useState('')
+  const [txHash, setTxHash] = useState('')
   const [loading, setLoading] = useState(false)
   const [file, setFile] = useState<File>()
   const { voters } = campaign
   const pushMessage = usePushMessage()
   const initProposal = useInitProposal(campaign)
-  const { push } = useRouter()
 
   const statuses = useMemo(
     () =>
@@ -91,14 +91,14 @@ export default function Voters({ onBack }: VotersProp) {
           onClick: () => window.open(tomoscan(txId || ''), '_blank'),
         },
       )
-      push('/')
+      setTxHash(txId)
       return setCampaign(DEFAULT_PROPOSAL)
     } catch (er: any) {
       return pushMessage('alert-error', er.message)
     } finally {
       setLoading(false)
     }
-  }, [initProposal, push, pushMessage, setCampaign])
+  }, [initProposal, pushMessage, setCampaign])
 
   useEffect(() => {
     if (!file) return () => {}
@@ -178,6 +178,7 @@ export default function Voters({ onBack }: VotersProp) {
           Create Campaign
         </button>
       </div>
+      <Congrats hash={txHash} />
     </div>
   )
 }

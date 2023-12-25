@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 
 import UiProvider from '@/providers/ui.provider'
 import WalletProvider from '@/providers/wallet.provider'
+import { Footer } from './footer'
 
 const title = 'Atbash | ZK Voting'
 const description =
@@ -41,11 +42,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <body className="w-full bg-bg-light bg-cover bg-no-repeat ">
         <UiProvider>
           <WalletProvider>
-            <div className="w-full min-h-[100dvh] flex flex-col gap-6">
+            <div className="w-full min-h-[100vh] flex flex-col gap-6">
               <main>{children}</main>
             </div>
           </WalletProvider>
         </UiProvider>
+        <footer className="sticky bottom-0 z-10">
+          <Footer />
+        </footer>
       </body>
     </html>
   )

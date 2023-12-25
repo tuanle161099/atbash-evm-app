@@ -9,6 +9,7 @@ import Candidates from './candidates'
 import Voters from './voters'
 
 import './index.scss'
+import Congrats from './congrat'
 
 const PROPOSAL_INFO = 0
 const CANDIDATE_INFO = 1
@@ -55,6 +56,7 @@ export default function NewProposal() {
         <Steps.Step title="Candidate Settings" />
         <Steps.Step title="Voter Settings" />
       </Steps>
+      <Congrats hash="" />
       <div className="col-span-full">{processInit}</div>
     </div>
   )

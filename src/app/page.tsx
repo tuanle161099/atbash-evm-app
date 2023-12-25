@@ -17,7 +17,7 @@ export default function Home() {
           <Header />
         </header>
         <div className="flex flex-col items-center">
-          <div className="max-w-[1200px] w-full flex gap-6 flex-col ">
+          <div className="max-w-[1240px] w-full flex gap-6 flex-col p-4">
             <div className="flex items-center">
               <h4 className="flex-auto">All Campaigns {amount}</h4>
               <Link href="/new-proposal" className="btn btn-primary text-black">
@@ -26,7 +26,7 @@ export default function Home() {
             </div>
             <div className="w-full grid grid-cols-12 gap-4">
               {Array.from(Array(amount).keys()).map((proposalId) => (
-                <div className="col-span-4" key={proposalId}>
+                <div className="col-span-full md:col-span-4" key={proposalId}>
                   <ProposalCard proposalId={proposalId} />
                 </div>
               ))}
