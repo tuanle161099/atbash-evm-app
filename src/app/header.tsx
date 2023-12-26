@@ -8,7 +8,7 @@ import LOGO from '@/static/images/logo.png'
 export default function Header() {
   return (
     <div
-      style={{ background: "url('./banner.svg')" }}
+      style={{ background: "url('./banner.png')" }}
       className="flex flex-col gap-4 p-4 !bg-cover !bg-no-repeat"
     >
       <div className="flex-auto flex justify-between">
