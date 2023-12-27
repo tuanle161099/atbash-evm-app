@@ -48,7 +48,7 @@ export default function GetResult({ proposalId }: GetResultProps) {
     <Fragment>
       <button
         onClick={() => setOpen(true)}
-        className="btn btn-primary  text-black btn-sm"
+        className="btn btn-primary text-black btn-sm w-36"
       >
         <Leaf /> Get Result
       </button>

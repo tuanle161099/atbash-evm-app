@@ -38,23 +38,26 @@ export default function ProposalDetail() {
             <ChevronLeft /> Back
           </button>
         </div>
-        <div className="card bg-[#F2F4FA] p-4 rounded-2xl flex-row gap-1 justify-between">
-          <div className="flex flex-col gap-4">
+        <div className="card bg-[#F2F4FA] p-4 rounded-2xl flex-row gap-4 grid col-span-12">
+          <div className="flex gap-4 col-span-full justify-between flex-wrap">
             <h5>{title}</h5>
-            <p className="opacity-50">{description}</p>
+            <div className="flex items-center gap-4">
+              <TimeCountDown proposalId={Number(proposalId)} />
+              {!!proposal && proposal.authority === address && (
+                <GetResult proposalId={Number(proposalId)} />
+              )}
+            </div>
           </div>
-          <div className="flex flex-col gap-4">
-            {!!proposal && proposal.authority === address && (
-              <GetResult proposalId={Number(proposalId)} />
-            )}
-            <TimeCountDown proposalId={Number(proposalId)} />
-          </div>
+          <p className="opacity-50 col-span-full">{description}</p>
         </div>
         <div className="card bg-[#F2F4FA] p-4 rounded-2xl flex flex-col gap-4">
           <h5>Candidate Slate</h5>
           <div className="grid grid-cols-12 gap-3">
             {Object.keys(candidateMetadata).map((candidate) => (
-              <div className="col-span-3 h-full" key={candidate}>
+              <div
+                className="md:col-span-3 col-span-full h-full"
+                key={candidate}
+              >
                 <CandidateCard
                   candidate={candidate}
                   proposalId={Number(proposalId)}
