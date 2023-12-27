@@ -1,8 +1,10 @@
 'use client'
 
 import { shortenAddress, tomoscan } from '@/helpers/utils'
-import { useCandidateData } from '@/hooks/atbash'
+import { useCandidateData, useWinner } from '@/hooks/atbash'
 import Vote from './vote'
+import classNames from 'classnames'
+import { Crown } from 'lucide-react'
 
 type CandidateCardProps = {
   candidate: string
@@ -14,9 +16,14 @@ export default function CandidateCard({
   proposalId,
 }: CandidateCardProps) {
   const { avatar, name, description } = useCandidateData(proposalId, candidate)
-
+  const winner = useWinner(proposalId)
+  const isWin = !!winner && winner === candidate
   return (
-    <div className="card bg-base-100 p-2 h-full">
+    <div
+      className={classNames('card bg-base-100 p-2 h-full', {
+        'border-2 border-primary': isWin,
+      })}
+    >
       <figure>
         <img src={avatar} alt="Shoes" className="rounded-2xl aspect-square" />
       </figure>
@@ -33,6 +40,11 @@ export default function CandidateCard({
         <p className="truncate">{description}</p>
         <Vote candidate={candidate} proposalId={proposalId} />
       </div>
+      {isWin && (
+        <span className="py-1 px-4 rounded-lg bg-[#69CFBD] absolute flex items-center gap-1">
+          Candidate winner <Crown />
+        </span>
+      )}
     </div>
   )
 }

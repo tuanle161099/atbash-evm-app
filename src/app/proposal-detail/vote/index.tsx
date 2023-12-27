@@ -1,9 +1,14 @@
 'use client'
-import { Fragment, useCallback, useEffect, useState } from 'react'
+import { Fragment, useCallback, useEffect, useMemo, useState } from 'react'
 
 import Modal from '@/components/modal'
 
-import { useCandidateData, useReceipt, useVote } from '@/hooks/atbash'
+import {
+  useCandidateData,
+  useProposalData,
+  useReceipt,
+  useVote,
+} from '@/hooks/atbash'
 import { usePushMessage } from '@/components/message/store'
 import { tomoscan } from '@/helpers/utils'
 import Congrats from './congrats'
@@ -21,6 +26,16 @@ export default function Vote({ candidate, proposalId }: VoteProps) {
   const vote = useVote(proposalId, candidate)
   const pushMessage = usePushMessage()
   const receipt = useReceipt(proposalId)
+  const { endDate, startDate } = useProposalData(proposalId)
+
+  const err = useMemo(() => {
+    const end = Number(endDate) * 1000
+    const start = Number(startDate) * 1000
+    if (start > Date.now()) return 'Proposal not started'
+    if (end < Date.now()) return 'Proposal has been ended!'
+    if (receipt) return 'You voted'
+    return ''
+  }, [endDate, receipt, startDate])
 
   const onVote = useCallback(async () => {
     try {
@@ -68,12 +83,13 @@ export default function Vote({ candidate, proposalId }: VoteProps) {
             </div>
             <button
               onClick={onVote}
+              disabled={!!err}
               className="btn btn-primary text-black w-full"
             >
               {loading && (
                 <span className="loading loading-spinner loading-sm" />
               )}
-              Vote for {name}
+              {err ? err : ` Vote for ${name}`}
             </button>
           </div>
         )}

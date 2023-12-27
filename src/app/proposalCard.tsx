@@ -17,15 +17,11 @@ export default function ProposalCard({ proposalId }: ProposalCardProps) {
     proposalMetadata: { title: '', description: '', image: '' },
   }
   return (
-    <Link href={`/proposal-detail?proposalId=${proposalId}`}>
-      <div
-        className={classNames(
-          'w-full bg-base-100 rounded-2xl p-4 flex flex-col gap-4 h-full relative',
-          {
-            'animate-pulse': isLoading,
-          },
-        )}
-      >
+    <Link
+      href={`/proposal-detail?proposalId=${proposalId}`}
+      className="relative"
+    >
+      <div className="w-full bg-base-100 rounded-2xl p-4 flex flex-col gap-4 h-full relative">
         <img
           className="aspect-video rounded-2xl  "
           alt="banner"
@@ -42,6 +38,17 @@ export default function ProposalCard({ proposalId }: ProposalCardProps) {
             Voted
           </span>
         )}
+      </div>
+      <div
+        className={classNames(
+          'w-full h-full flex flex-row justify-center items-center absolute top-0 left-0 backdrop-blur rounded-box z-10',
+          {
+            visible: true,
+            invisible: !isLoading,
+          },
+        )}
+      >
+        <span className="loading loading-spinner loading-lg" />
       </div>
     </Link>
   )

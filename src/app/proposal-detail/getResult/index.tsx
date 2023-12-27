@@ -6,7 +6,12 @@ import { usePushMessage } from '@/components/message/store'
 import Modal from '@/components/modal'
 import { Leaf } from 'lucide-react'
 
-import { useCandidateData, useGetWinner, useProposalData } from '@/hooks/atbash'
+import {
+  useCandidateData,
+  useGetWinner,
+  useProposalData,
+  useWinner,
+} from '@/hooks/atbash'
 
 type GetResultProps = {
   proposalId: number
@@ -19,6 +24,7 @@ export default function GetResult({ proposalId }: GetResultProps) {
   const pushMessage = usePushMessage()
   const getWinner = useGetWinner(proposalId)
   const proposal = useProposalData(proposalId)
+  const winner = useWinner(proposalId)
 
   const [result, setResult] = useState<number[]>(
     Array(proposal.candidates.length).fill(0),
@@ -53,11 +59,11 @@ export default function GetResult({ proposalId }: GetResultProps) {
         <Leaf /> Get Result
       </button>
       <Modal className="max-w-3xl" open={open} onCancel={() => setOpen(false)}>
-        <div className="flex flex-col w-full gap-6 items-center rounded-lg">
+        <div className="flex flex-col w-full gap-6 items-center rounded-lg max-h-[480px] overflow-y-auto overflow-x-hidden no-scrollbar">
           <h5>{isGetResult ? 'Results' : 'Get Results'}</h5>
           <div className="grid grid-cols-12 gap-4 w-full">
             {proposal.candidates.map((address, i) => (
-              <div key={address} className="col-span-4">
+              <div key={address} className="md:col-span-4 col-span-full">
                 <Candidate
                   address={address}
                   proposalId={Number(proposalId)}
@@ -67,7 +73,7 @@ export default function GetResult({ proposalId }: GetResultProps) {
               </div>
             ))}
           </div>
-          {maxResult > 0 ? (
+          {maxResult > 0 || !!winner ? (
             <button onClick={() => setOpen(false)} className="btn btn-block">
               Close
             </button>

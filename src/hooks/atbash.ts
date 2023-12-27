@@ -214,6 +214,9 @@ export const useGetWinner = (proposalId: number) => {
   })
 
   const getWinner = useCallback(async () => {
+    const end = Number(proposal.endDate) * 1000
+    if (Date.now() < end) throw new Error("The campaign isn't end!")
+
     const P = secp256k1.Point.BASE
     const decryptedPoints = await Promise.all(
       proposal.ballotBoxes.map(async ({ x, y }, i) => {
@@ -230,7 +233,7 @@ export const useGetWinner = (proposalId: number) => {
       args: [totalBallot, proposalId],
     })
     return totalBallot
-  }, [proposal.ballotBoxes, proposal.randomNumbers, proposalId, writeAsync])
+  }, [proposal, proposalId, writeAsync])
 
   return getWinner
 }
