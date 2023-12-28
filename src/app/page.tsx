@@ -1,15 +1,17 @@
 'use client'
 
 import Link from 'next/link'
+
 import Island from '@/components/island'
 import ProposalCard from './proposalCard'
+import Header from './header'
+import { Plus } from 'lucide-react'
 
 import { useProposalCount } from '@/hooks/atbash'
-import { Plus } from 'lucide-react'
-import Header from './header'
 
 export default function Home() {
   const { amount } = useProposalCount()
+  const proposals = Array.from(Array(amount).keys()).sort((a, b) => b - a)
   return (
     <Island>
       <div className="flex flex-col gap-6 pb-6">
@@ -25,7 +27,7 @@ export default function Home() {
               </Link>
             </div>
             <div className="w-full grid grid-cols-12 gap-4">
-              {Array.from(Array(amount).keys()).map((proposalId) => (
+              {proposals.map((proposalId) => (
                 <div className="col-span-full md:col-span-4" key={proposalId}>
                   <ProposalCard proposalId={proposalId} />
                 </div>
