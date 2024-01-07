@@ -101,24 +101,18 @@ export default function Voters({ onBack }: VotersProp) {
   }, [initProposal, pushMessage, setCampaign])
 
   useEffect(() => {
-    if (!file) return () => {}
+    if (!file || !!voters.length) return () => {}
     parse<string[]>(file, {
       delimiter: ',',
       complete: ({ data, errors }) => {
         if (errors.length)
           errors.forEach((er) => pushMessage('alert-error', er.message))
         else {
-          for (const [address] of data) {
-            voters.push(address)
-            setCampaign({
-              ...campaign,
-              voters: voters,
-            })
-          }
+          setCampaign({ ...campaign, voters: data.map(([address]) => address) })
         }
       },
     })
-  }, [campaign, file, pushMessage, setCampaign, voters])
+  }, [campaign, file, pushMessage, setCampaign, voters.length])
 
   return (
     <div className="grid grid-cols-12 gap-4">
